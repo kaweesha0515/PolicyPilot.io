@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI-Powered Policy Document Summary & Generation</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(to right, #6a11cb, #2575fc); /* Gradient background */
+      margin: 0;
+      padding: 0;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    .structure {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .app-bar {
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 20px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      transition: all 0.3s ease;
+    }
+
+    .title {
+      font-size: 28px;
+      font-weight: 700;
+      text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .container {
+      background: #ffffff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      animation: fadeIn 1s ease-in-out forwards;
+    }
+
+    h1 {
+      color: #3f51b5;
+      text-align: center;
+      font-size: 36px;
+      margin-bottom: 30px;
+      letter-spacing: 1px;
+      font-weight: 700;
+    }
+
+    .upload-section, .policy-generation {
+      margin-bottom: 30px;
+    }
+
+    .upload-section h2, .policy-generation h2 {
+      color: #333;
+      font-size: 24px;
+      margin-bottom: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .upload-area {
+      background: linear-gradient(135deg, #ff7e5f, #feb47b); /* Warm gradient */
+      padding: 50px;
+      border-radius: 10px;
+      text-align: center;
+      border: 2px dashed #ccc;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    .upload-area:hover {
+      background: linear-gradient(135deg, #fc5c7d, #6a82fb);
+      transform: scale(1.05);
+    }
+
+    .upload-area::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      z-index: -1;
+    }
+
+    #file-upload {
+      display: none;
+    }
+
+    .policy-generation select, .policy-generation textarea {
+      width: 100%;
+      padding: 14px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      margin-bottom: 20px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .policy-generation button {
+      width: 100%;
+      padding: 14px;
+      background-color: #3f51b5;
+      color: white;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .policy-generation button:hover {
+      background-color: #303f9f;
+      transform: scale(1.05);
+    }
+
+    .placeholder {
+      color: #777;
+      text-align: center;
+      padding: 10px;
+      font-size: 14px;
+    }
+
+    /* Animations for fade-in and smooth transitions */
+    .container {
+      opacity: 0;
+      animation: fadeIn 1s ease-in-out forwards;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="structure">
+    <div class="content">
+      <div class="container">
+        <h1>AI-Powered Policy Document Summary & Generation</h1>
+        <p>Welcome to our AI-powered platform where you can quickly summarize policy documents and generate tailored policies for various scenarios. Whether you're dealing with legal documents or crafting a new regulation, our platform streamlines your work using the latest in AI technology.</p>
+        
+        <div class="upload-section">
+          <h2>Upload Documents</h2>
+          <p>Drag & Drop your PDF/DOCX here to get an AI-generated summary.</p>
+          <div class="upload-area" id="upload-area">
+            <input type="file" id="file-upload" accept=".pdf, .docx" />
+            <span>Click to select or drag & drop your file here</span>
+          </div>
+        </div>
+
+        <div class="policy-generation">
+          <h2>Policy Generation</h2>
+          <p>Use this section to generate custom policies based on your input scenario. Select the type of policy and describe the scenario for which you need the policy.</p>
+          <label for="policy-type">Select Policy Type</label>
+          <select id="policy-type">
+            <option value="" disabled selected>Select</option>
+            <option value="act">Act</option>
+            <option value="regulation">Regulation</option>
+            <option value="circular">Circular</option>
+            <option value="gazette">Gazette</option>
+          </select>
+
+          <label for="custom-scenario">Enter a custom scenario</label>
+          <textarea id="custom-scenario" rows="4" placeholder="Describe the scenario"></textarea>
+
+          <button id="generate-policy">Generate Policy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Placeholder functionality for uploading and policy generation
+    document.getElementById('generate-policy').addEventListener('click', function() {
+      const policyType = document.getElementById('policy-type').value;
+      const customScenario = document.getElementById('custom-scenario').value;
+      alert('Policy Type: ' + policyType + '\nCustom Scenario: ' + customScenario);
+    });
+
+    const uploadArea = document.getElementById('upload-area');
+    const fileUpload = document.getElementById('file-upload');
+
+    uploadArea.addEventListener('click', function() {
+      fileUpload.click();
+    });
+
+    fileUpload.addEventListener('change', function(event) {
+      const fileName = fileUpload.files.length ? fileUpload.files[0].name : '';
+      uploadArea.querySelector('span').textContent = fileName ? `Selected file: ${fileName}` : 'Click to select or drag & drop your file here';
+    });
+  </script>
+</body>
+</html>
+
